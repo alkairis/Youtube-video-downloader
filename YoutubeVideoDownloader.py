@@ -4,7 +4,7 @@ from tkinter import ttk
 from pytube import YouTube
 from tkinter import filedialog
 
-Folder_Name = "C:\ Users\dsr07\Downloads"
+Folder_Name = "Downloads"
 def OpenLocation():
     global Folder_Name
     Folder_Name = filedialog.askdirectory()
@@ -45,7 +45,7 @@ ytdError.grid()
 saveEntry = Button(root, width=30, bg="red", fg="white", text="choose file location", command=OpenLocation)
 saveEntry.grid()
 
-locationError = Label(root, text="C:\ Users\dsr07\Downloads", fg="green", font=("jost", 12))
+locationError = Label(root, text="Downloads", fg="green", font=("jost", 12))
 locationError.grid()
 
 download = Button(root, text="Download", width=10, bg="red", fg="white", command=DownloadVideo)
