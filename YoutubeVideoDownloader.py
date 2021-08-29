@@ -1,11 +1,33 @@
 from tkinter import *
 from tkinter import ttk
-from tkinter import filedialog
+
 from pytube import YouTube
+from tkinter import filedialog
+
+Folder_Name = "C:\ Users\dsr07\Downloads"
+def OpenLocation():
+    global Folder_Name
+    Folder_Name = filedialog.askdirectory()
+    if(len(Folder_Name) > 1):
+        locationError.config(text=Folder_Name, fg="green")
+    else:
+        locationError.config(text="Invalid Location", fg="red")
+
+def getDetails() : 
+    pass
+
+def DownloadVideo():
+    global Folder_Name
+    url = ytdEntry.get()
+    if(len(url) > 1):
+        ytdError.config(text="")
+        video = YouTube(url)
+        video.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download(Folder_Name)
+        ytdError.config(text="Video Downloaded Successfully", fg="green", font=("jost", 12))
 
 root = Tk()
 root.title("Video Downloader")
-root.geometry("360x400")
+root.geometry("360x360")
 
 root.columnconfigure(0, weight=1)
 
@@ -17,29 +39,16 @@ ytdEntry = Entry(root, width="50", textvariable=ytdEntryvar)
 ytdEntry.focus()
 ytdEntry.grid()
 
-ytdError = Label(root, text="Error Msg", fg="red", font=("jost", 12))
+ytdError = Label(root, text="", fg="red", font=("jost", 12))
 ytdError.grid()
 
-saveLabel = Label(root, text="Save Video", font=("josh", 14, 'bold'))
-saveLabel.grid()
-
-saveEntry = Button(root, width=30, bg="red", fg="white", text="choose file location")
+saveEntry = Button(root, width=30, bg="red", fg="white", text="choose file location", command=OpenLocation)
 saveEntry.grid()
 
-locationError = Label(root, text="Invalid Location", fg="red", font=("jost", 12))
+locationError = Label(root, text="C:\ Users\dsr07\Downloads", fg="green", font=("jost", 12))
 locationError.grid()
 
-qualityLabel = Label(root, text="Select Video quality", font=("jost", 12))
-qualityLabel.grid()
-
-choices = [720, 420, 360, 1080]
-YtdChoices = ttk.Combobox(root, width=30, values=choices)
-YtdChoices.grid()
-
-download = Button(root, text="Download", width=10, bg="red", fg="white")
+download = Button(root, text="Download", width=10, bg="red", fg="white", command=DownloadVideo)
 download.grid()
-
-developerLabel = Label(root, text="Alkairis", font=("josh", 14, 'bold'))
-developerLabel.grid()
 
 root.mainloop()
